@@ -1,4 +1,4 @@
-FROM golang:1.6
+FROM golang:1.7
 
 ENV USER root
 
@@ -7,8 +7,9 @@ COPY . .
 
 # restore all deps and build
 RUN go get github.com/GeertJohan/go.rice/rice && rice embed-go -i=./cli/serve && \
-	cp -R /go/src/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust /etc/cfssl && \
-	go install ./cmd/...
+    go install ./cmd/...
+
+VOLUME ["/etc/cfssl"]
 
 EXPOSE 8888
 
