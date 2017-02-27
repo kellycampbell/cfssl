@@ -9,6 +9,8 @@ COPY . .
 RUN go get github.com/GeertJohan/go.rice/rice && rice embed-go -i=./cli/serve && \
     go install ./cmd/...
 
+RUN go get github.com/pressly/goose/cmd/goose
+
 VOLUME ["/etc/cfssl"]
 
 EXPOSE 8888
