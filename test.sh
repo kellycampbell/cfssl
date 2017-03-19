@@ -53,7 +53,7 @@ do
 done
 
 if ! command -v staticcheck  > /dev/null ; then
-    go get github.com/dominikh/go-staticcheck/cmd/staticcheck
+    go get -u honnef.co/go/tools/cmd/staticcheck
 fi
 
 for package in $PACKAGES
@@ -64,7 +64,8 @@ done
 # check go fmt
 for package in $PACKAGES
 do
-    test -z "$(gofmt -s -l $GOPATH/src/$package/ | tee /dev/stderr)"
+    echo "gofmt $package"
+    test -z "$(gofmt -s -l -d $GOPATH/src/$package/ | tee /dev/stderr)"
 done
 
 # Build and install cfssl executable in PATH

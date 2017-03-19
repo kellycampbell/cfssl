@@ -406,6 +406,10 @@ func TestParseCSRPEMMore(t *testing.T) {
 	if _, err := ParseCSRPEM(csrPEM); err == nil {
 		t.Fatal(err)
 	}
+
+	if _, err := ParseCSRPEM([]byte("not even pem")); err == nil {
+		t.Fatal("Expected an invalid CSR.")
+	}
 }
 
 // Imported from signers/local/testdata/
@@ -428,12 +432,12 @@ const clientCertFile = "testdata/ca.pem"
 const clientKeyFile = "testdata/ca_key.pem"
 
 func TestClientCertParams(t *testing.T) {
-	cert, err := LoadClientCertificate(testCertFile, testPrivateRSAKey)
+	_, err := LoadClientCertificate(testCertFile, testPrivateRSAKey)
 	if err == nil {
 		t.Fatal("Unmatched cert/key should generate error")
 	}
 
-	cert, err = LoadClientCertificate("", "")
+	cert, err := LoadClientCertificate("", "")
 	if err != nil || cert != nil {
 		t.Fatal("Certificate atempted to loaded with missing key and cert")
 	}
